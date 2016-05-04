@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>chatroom</title>
+<style type="text/css">
+html,body,div,ul,li,form,input{
+  padding:0;
+  margin:0;
+}
+html{
+  background:linear-gradient(to right, #50a3a2 0%, #53e3a6 100%);
+  min-width:720px; 
+  max-height:1000px;
+}
+body{
+  margin:0 auto;
+  font-family:"微软雅黑","Microsoft YaHei"; 
+  background:linear-gradient(to right, #50a3a2 0%, #53e3a6 100%);
+  opacity: 0.8;
+  position:relative;
+  font-weight:600;
+}
+
+#header{
+  height:140px;
+  background-color:rgba(240,240,240,.2);
+  margin-bottom:30px;
+  font-size:3em;
+  font-family:"楷体";
+  text-align:center;
+  line-height:140px;
+}
+.icon{
+  float:left;
+  width:80px;
+  height:80px;
+  border:4px solid rgba(100,100,100,0.2);
+  border-radius:50%;
+  background: rgba(200,230,200,.2);
+  position:relative;
+  left:20%;
+  top:25px;
+}
+.icon:before{
+  content:'';
+  position:absolute;
+  bottom:6px;
+  left:17px;
+  width:0;
+  height:0;
+  border: 6px solid transparent;
+  border-top: 15px solid rgba(0, 0, 0, 0.2);
+  transform: rotate(15deg);
+}
+.icon .bubble{
+  position:absolute;
+  top:50%;
+  left:50%;
+  margin:-20px 0 0 -25px;
+  width:50px;
+  height:40px;
+  background: #fff;
+  display:block;
+  border-radius:50%;
+  box-shadow:0 3px 0 rgba(0,0,0,.4);
+}
+
+#container{
+	float:left;
+	background-color:#fff;
+	margin-left:260px;
+	margin-top:160px;
+	transform: translate(-50%, -50%);
+	width:300px;
+	border:solid 15px rgba(220,220,220,.6);
+	background-clip:padding-box;
+	border-radius:40px;
+	padding:2.8em .4em;
+	word-spacing:1em;
+	text-shadow:0 8px 9px #c4b59d,0px -2px 1px #fff;
+	color:#234;
+}
+
+#container li{
+  padding:.9em;
+  list-style-type:none;
+  text-align:center;
+
+}
+span#space{
+  display:inline-block;
+  width:1em;
+}
+input{
+  border:0;
+  margin:0;
+  padding:0;
+  outline:none;
+  background-color:#fff;
+}
+.input{
+  border:1px solid green;
+  padding:4px;
+  border-radius:10px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, .6);
+  background-color:#fff;
+}
+li.resub{
+  margin-left:3.4em;
+}
+li.resub span input{
+  display:inline-block;
+  width:3.8em;
+  font-weight:600;
+  color:#234;;
+}
+li.resub span:hover input{
+  color:#CC8;
+  font-weight:600;
+}
+
+#footer{
+  clear:both;
+  font-weight:normal;
+  font-size:.8em;
+  text-align:center;
+}
+
+#content{
+  float:left;
+  background-color:rgba(220,240,220,.3);
+  width:600px;
+  height:350px;
+  border:solid 15px rgba(220,220,220,.6);
+  background-clip:padding-box;
+  border-radius:40px;
+  overflow:hidden;
+}
+
+#content ul{
+  background-color:#3cc;
+  text-align:center;
+  position:relative;
+  margin-bottom:30px;
+  padding:10px 0;
+}
+#content li{
+  display:inline-block;
+  border:2px solid rgba(100,100,100,.6);
+  background-color:#fff;
+  border-radius:8px;
+  width:7em;
+  line-height:2em;
+  text-align:center;
+  margin-left:20px;
+}
+#content li:hover{
+  text-shadow:0 8px 9px #c4b59d,0px -2px 1px #fff;
+  box-shadow:0 4px 0 rgba(0,0,0,.4);
+}
+
+#tab li div{
+  position:absolute;
+  top:170%;
+  left:18%;
+  width:400px;
+  display:none;
+  font-size:1.4em;
+  font-weight:normal;
+  font-family:"华文行楷",cursive;
+  text-align:left;
+  text-indent:2em;
+}
+#preshow{
+  padding:20px 60px;
+  font-family:STKaiti, Arial;
+  font-size:1.2em;
+  font-weight:normal;
+  color:rgba(10,10,10,.9);
+}
+
+</style>
+</head>
+<body>
+<div id="header"><div class="icon"><span class="bubble"></span></div>Web Socket 实时在线聊天室</div>
+<div id="container">
+<form  method="post" action="index.jsp">
+<ul>
+<li>用户名：<span class="input"><input type="text" placeholder="username" name="username"id="user"></span></li>
+<li>密<span id="space"></span>码：<span class="input"><input type="password"  name="password" id="password" placeholder="password"></span></li>
+<li class="resub">
+<span class="input"><input type="submit" value="submit"></span>
+<span class="input"><input type="reset" value="reset"></span>
+</li>
+</ul>
+</form>
+</div>
+
+<div id="content">
+<ul id="tab">
+<li class="c1">名人谈聊<div class="c2">
+曾迫切想与一个人好好聊聊，不仅是寒暄，而是真正的交流，却发现共同的话题更换了无数遍，熟悉的人早已不再拥有曾经的情怀，我被无数个“哦”“好吧”打败。不合群只是表面的孤独，合群了才是内心的孤独。
+</div></li>
+<li class="c1">聊天真知<div class="c2">
+你和一个人聊天，什么都对劲：不紧张，不揣摩，不勾引，又不较劲，不词斟句酌，不假惺惺，不文艺腔，不紧不慢，不没话找话，不拐弯抹角，不挑衅，不冒犯，不敷衍，不长不短。这才叫聊天。
+</div></li>
+<li class="c1">本心说聊<div class="c2">
+我其实不爱聊天，一群人聊天，常常是大家着急表达，无心倾听，然后聊天就变成了一群人的自说自话，习惯沉默，也逐渐冷却安静，只有在看书的时候，才会认真地听别人在讲些什么，听自己内心世界在激荡些什么。偶尔接受自己与世界的格格不入，一个人，其实并不孤独。
+</div></li>
+</ul>
+<div id="preshow">聊天室简介：<br>这是一个聊天室，运用的技术或工具包括：Tomcat8、Web Socket、Java、Javascript、CSS3等。实现的功能包括：登录、公聊、私聊、发送图片等。</div>
+</div>
+<div id="footer">
+聊天室 | shuoers出品
+</div>
+<script>
+document.forms[0].elements[0].focus();
+var show=document.getElementById("content");
+var c1=document.getElementsByClassName("c1");
+var c2=document.getElementsByClassName("c2");
+var pershow=document.getElementById("preshow");
+for(i=0,len=c1.length;i<len;i++){
+	c1[i].onmouseover=(function(e){
+		preshow.style.display="none";
+    this.lastChild.style.display="block";
+	});
+	c1[i].onmouseleave=(function(e){
+		this.lastChild.style.display="none";
+		preshow.style.display="block";
+	});
+}
+
+</script>
+</body>
+</html>
