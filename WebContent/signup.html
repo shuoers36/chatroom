@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="css/reset.css">
   <style type="text/css">
   html{
-    
+    font-family:Verdana;
     background:url(images/ss5.jpg) repeat top left;
   }
   
@@ -30,18 +30,6 @@
   form{
     padding:40px 20px;
   }
-  span#nouser{
-  font-size:.8em;
-  color:red;
-  display:none;
-  }
-  span#pwd{
-  color:red;
-  position:absolute;
-  top:60%;
-  left:14%;
-  display:none;
-  }
   #login li{
     margin-top:20px;
     overflow:hidden;
@@ -51,13 +39,18 @@
   #login li:last-child{
     border:0;
   }
-  input{
+  span#nouser{
+  font-size:.8em;
+  color:red;
+  display:none;
+  }
+  input.fill{
    height:40px;
    width:100%;
    border:0;
    background:rgba(255,255,255,.1);
   }
-  input:focus{
+  input.fill:focus{
     background:rgba(255,255,255,.3);
   }
   input#submit{
@@ -65,39 +58,39 @@
     width:40%;
     font-size: 1.3em;
     color:#fff;
-    border:2px solid #ccc;
+    border:1px solid #ccc;
     margin:20px 10px;
+    background:transparent;
     border-radius:10px;
-    font-weight:bold;
   }
   #submit:hover{
   border:3px solid #fff;
-  box-shadow:0 2px 2px #ccc;
+  box-shadow:0px 1px 1px #ccc; 
   }
-  form a{
-    color:#333;
-    height:40px;
-    text-decoration: none;
-    display:inline-block;
-    padding-left:20px;
-    font-weight:bold;
-    text-shadow:0 1px 1px #888;
+  input#reset{
+    background:hsla(0,0%,100%,0);
+    color:hsla(0,0%,100%,0.8);
+    text-shadow:1px -1px 10px #888;
+    border:0;
+    font-size:1.6em;
+    margin-left:28px;
   }
-  form a:hover{
-    color:#222;
-    font-size:1.1em;
+  #reset:hover{
+  text-shadow:1px 0 2px #ccc;
   }
-  </style>  
+  
+  </style>
+  
 </head>
 <body>
 <div id="content">
-<h1>WebSocket 聊天室</h1>
+<h1>Sign Up</h1>
 <form method="post" action="index.jsp" id="myForm">
-  <span id="nouser">用户名不存在</span>
+  <span id="nouser">用户名已被注册</span>
   <ul id="login">
-    <li><input type="text" name="username" placeholder="username" required="required"></li>
-    <li><input type="password" name="password" placeholder="password" required="required"><span id="pwd">密码错误</span></li>
-    <li><input type="submit" value="Log in" id="submit"> <a href="signup.html">Register Now</a></li>
+    <li><input type="text" name="username" class="fill"  placeholder="username" required="required"></li>
+    <li><input type="password" name="password" class="fill" placeholder="password" required="required"></li>
+    <li><input type="submit" value="Submit" id="submit"> <input type="reset" id="reset" value="reset"></li>
   </ul>
 </form>
 </div>
@@ -115,11 +108,10 @@
 	  xhr.onreadystatechange=function(){
 		    if(xhr.readyState==4){
 		        if((xhr.status>=200 && xhr.status<300)|| xhr.status==304){
-		        	if(xhr.responseText.trim()=="" && inpuText.value!==""){
-		        		document.getElementById("nouser").style.display="block";
-		        		document.getElementById("pwd").style.display="none";
+		        	if(xhr.responseText.trim()==""){
+		        		document.getElementById("nouser").style.display="none";
 		        	} else{
-		        		document.getElementById("nouser").style.display="none";		        	}
+		        		document.getElementById("nouser").style.display="block";		        	}
 		        }
 		      }
 		    };
@@ -129,29 +121,17 @@
 		    xhr.send(null);
   }
  
-  password.onblur=function(e){
+  password.addEventListener("change",function(e){
 	  var xhr=new XMLHttpRequest();
-	  xhr.onreadystatechange=function(){
-		    if(xhr.readyState==4){
-		        if((xhr.status>=200 && xhr.status<300)|| xhr.status==304){
-		        	if(xhr.responseText.trim()=="" && document.getElementById("nouser").style.display!=="block" && inpuText.value!==""){
-		        		document.getElementById("pwd").style.display="block";	
-		        		
-		        	} else{
-		        		document.getElementById("pwd").style.display="none";	
-		        		
-		        	}
-		        }
-		      }
-		    };
-		    var newurl=("query.jsp?username="+inpuText.value+"&password="+password.value+"&register="+"");
+		    var newurl=("query.jsp?username="+inpuText.value+"&password="+password.value+"&register="+"true");
 		    xhr.open("GET",newurl,true);
 		   
-		    xhr.send(null);
-	  
-  }
+		    xhr.send(null);  		 
+  },false);
+  var formele=document.getElementsByClassName("fill");
+  var nou=document.getElementById("nouser");
   myform.addEventListener("submit",function(e){
-	  if(document.getElementById("pwd").style.display=="block" || document.getElementById("nouser").style.display=="block"){
+	  if(nou.style.display==="block"){
 		  e.preventDefault();
 	  }
   },false);

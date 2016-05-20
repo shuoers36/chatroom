@@ -10,6 +10,7 @@ import javax.websocket.OnError;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.sql.*;  
 
 @ServerEndpoint("/websocket/{client-id}")
 public class ChatroomServlet{
@@ -19,7 +20,8 @@ public class ChatroomServlet{
 public void OnOpen(Session session,@PathParam("client-id") String clientId){
   clients.put(clientId,session);
  refresh();
-}
+ }  
+	
 
 public void refresh(){
    Set<String> ids=clients.keySet();
